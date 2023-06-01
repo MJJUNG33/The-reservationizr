@@ -30,11 +30,12 @@
     "prettier": "^2.4.1",
     "serve": "^12.0.1",
     "start-server-and-test": "^1.14.0",
-    "supertest": "^6.1.6"
+    "supertest": "^6.3.3"
   },
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "mongoose": "^7.2.2",
     "nodemon": "^2.0.12"
   },
   "jest": {
@@ -47,5 +48,8 @@
       "<rootDir>/seed",
       "<rootDir>/node_modules/"
     ]
-  }
+  },
+  "main": "index.js",
+  "license": "ISC",
+  "description": ""
 }
