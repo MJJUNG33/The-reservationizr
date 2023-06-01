@@ -59,7 +59,7 @@ describe('app', () => {
     await request(app).get('/restaurants/bad-url').expect(expectedStatus);
   });
 
-  test('GET /restaurants/:id returns 404 when request with an id that doesn’t exist in the database', async () => {
+  test('GET /restaurants/:id returns 404 when request with an id that doesn’t exist on the server', async () => {
     const expectedStatus = 404;
 
     await request(app)
