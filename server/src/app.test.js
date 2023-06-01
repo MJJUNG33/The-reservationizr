@@ -3,6 +3,7 @@ const app = require('./app');
 
 describe('app', () => {
   test('GET /restaurants returns a list of all restaurants', async () => {
+    const expectedStatus = 200;
     const expectedbody = [
       {
         id: '616005cae3c8e880c13dc0b9',
@@ -28,8 +29,41 @@ describe('app', () => {
     ];
     await request(app)
       .get('/restaurants')
+      .expect(expectedStatus)
       .expect((response) => {
         expect(response.body).toEqual(expectedbody);
       });
+  });
+
+  test('GET /restaurants/:id returns a single restaurants', async () => {
+    const expectedStatus = 200;
+    const expectedbody = {
+      id: '616005cae3c8e880c13dc0b9',
+      name: 'Curry Place',
+      description:
+        "Bringing you the spirits of India in the form of best authentic grandma's recipe dishes handcrafted with love by our chefs!",
+      image: 'https://i.ibb.co/yftcRcF/indian.jpg',
+    };
+
+    await request(app)
+      .get('/restaurants/616005cae3c8e880c13dc0b9')
+      .expect(expectedStatus)
+      .expect((response) => {
+        expect(response.body).toEqual(expectedbody);
+      });
+  });
+
+  test('GET /restaurants/:id returns 400 when request with an invalid id', async () => {
+    const expectedStatus = 400;
+
+    await request(app).get('/restaurants/bad-url').expect(expectedStatus);
+  });
+
+  test('GET /restaurants/:id returns 404 when request with an id that doesn’t exist in the database', async () => {
+    const expectedStatus = 404;
+
+    await request(app)
+      .get('/restaurants/616005cae3c8e880c13dc0b1')
+      .expect(expectedStatus);
   });
 });
