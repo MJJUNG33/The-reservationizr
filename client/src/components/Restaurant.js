@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import CreateReservation from "./CreateReservation";
-import "./Restaurant.css";
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import CreateReservation from './CreateReservation';
+import './Restaurant.css';
 
 const Restaurant = () => {
   const { id } = useParams();

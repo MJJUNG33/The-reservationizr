@@ -46,11 +46,11 @@
 }
 
 @media only screen and (min-width: 30rem) {
-  /* .header .container {
+  .header .container {
     display: grid;
     grid-template-columns: 10rem auto;
     align-items: center;
-  } */
+  }
 
   .nav {
     width: 100%;
@@ -61,9 +61,9 @@
     justify-content: center;
   }
 
-  /* .nav {
+  .nav {
     justify-content: end;
-  } */
+  }
 }
 
 @media only screen and (min-width: 40rem) {
