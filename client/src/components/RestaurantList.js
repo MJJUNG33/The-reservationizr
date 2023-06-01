@@ -23,6 +23,30 @@ const RestaurantList = () => {
   return (
     <>
       <h1>Restaurants</h1>
+      <ul className="restaurants-list">
+        {RestaurantList.map((restaurant) => {
+          return (
+            <li className="restaurants" key={restaurant.id}>
+              <img
+                className="restaurant-img"
+                src={restaurant.image}
+                alt={restaurant.name}
+              />
+              <div className="restaurant-rightSide">
+                <h2 className="restaurant-name">{restaurant.name}</h2>
+                <p className="restaurant-description">
+                  {restaurant.description}
+                </p>
+                <Link to={`/restaurant/${restaurant.id}`}>
+                  <button className="reserve-button">
+                    Reserve now &rarr;{' '}
+                  </button>
+                </Link>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
     </>
   );
 };
