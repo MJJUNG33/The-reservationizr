@@ -1,1 +1,0 @@
-const formatRestaurants = require('./formatRestaurant');

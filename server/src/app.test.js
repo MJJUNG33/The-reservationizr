@@ -2,6 +2,25 @@ const request = require('supertest');
 const app = require('./app');
 
 describe('app', () => {
+  test('POST /reservations', async () => {
+    const expectedStatus = 201;
+    const expectedbody = {
+      partySize: 4,
+      date: '2023-11-17T06:30:00.000Z',
+      userId: 'mock-user-id',
+      restaurantName: 'Island Grill',
+    };
+
+    await request(app)
+      .post('/reservations')
+      .send(expectedbody)
+      .expect(expectedStatus)
+      .expect((response) => {
+        expect(response.body).toEqual(expect.objectContaining(expectedbody));
+        expect(response.body.id).toBeTruthy();
+      });
+  });
+
   test('GET /restaurants returns a list of all restaurants', async () => {
     const expectedStatus = 200;
     const expectedbody = [
