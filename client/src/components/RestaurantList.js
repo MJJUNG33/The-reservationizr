@@ -37,6 +37,7 @@ const RestaurantList = () => {
                 <p className="restaurant-description">
                   {restaurant.description}
                 </p>
+
                 <Link to={`/restaurants/${restaurant.id}`}>
                   <button className="reserve-button">Reserve now &rarr;</button>
                 </Link>

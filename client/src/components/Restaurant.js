@@ -31,13 +31,13 @@ const Restaurant = () => {
             className="restaurant-img"
             src={restaurant.image}
             alt={restaurant.name}
-          />{' '}
+          />
           <div className="restaurant-rightSide">
-            <h2 className="restaurant-name">{restaurant.name}</h2>
+            <h1 className="restaurant-name">{restaurant.name}</h1>
             <p className="restaurant-description">{restaurant.description}</p>
           </div>
-          <CreateReservation restaurantName={restaurant.name} />
         </li>
+        <CreateReservation restaurantName={restaurant.name} />
       </ul>
     </>
   );

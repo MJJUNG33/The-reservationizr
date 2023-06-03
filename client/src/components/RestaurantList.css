@@ -9,14 +9,14 @@ li.restaurants {
   box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
 }
 
-h2 {
+h2.restaurant-name {
   font-size: 1.5rem;
   margin: 0;
 }
 
 .reserve-button {
   color: white;
-  background-color: #db4d3b;
+  background-color: #da3a25;
   font-size: 1rem;
   border: 1px solid;
   border-radius: 5px;
@@ -25,7 +25,8 @@ h2 {
 
 @media screen and (min-width: 48rem) {
   ul.restaurants-List,
-  li.restaurants {
+  li.restaurants,
+  .restaurant-rightSide {
     display: grid;
     margin: 0;
   }
@@ -44,5 +45,13 @@ h2 {
 
   .restaurant-img {
     align-self: start;
+  }
+
+  .restaurant-rightSide {
+    row-gap: 1rem;
+  }
+
+  .reserve-button {
+    margin-top: 1rem;
   }
 }
