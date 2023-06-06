@@ -7,7 +7,6 @@ describe('app', () => {
     const expectedbody = {
       partySize: 4,
       date: '2023-11-17T06:30:00.000Z',
-      userId: 'mock-user-id',
       restaurantName: 'Island Grill',
     };
 
@@ -54,7 +53,7 @@ describe('app', () => {
       });
   });
 
-  test('GET /restaurants/:id returns a single restaurants', async () => {
+  test('GET /restaurants/:id returns a single restaurant', async () => {
     const expectedStatus = 200;
     const expectedbody = {
       id: '616005cae3c8e880c13dc0b9',
@@ -71,6 +70,64 @@ describe('app', () => {
         expect(response.body).toEqual(expectedbody);
       });
   });
+  test('GET /reservations returns a list of all reservations', async () => {
+    const expectedStatus = 200;
+    const expectedbody = [
+      {
+        id: '507f1f77bcf86cd799439011',
+        partySize: 4,
+        date: '2023-11-17T06:30:00.000Z',
+        userId: 'mock-user-id',
+        restaurantName: 'Island Grill',
+      },
+      {
+        id: '614abf0a93e8e80ace792ac6',
+        partySize: 2,
+        date: '2023-12-03T07:00:00.000Z',
+        userId: 'mock-user-id',
+        restaurantName: 'Green Curry',
+      },
+    ];
+
+    await request(app)
+      .get('/reservations')
+      .expect(expectedStatus)
+      .expect((response) => {
+        expect(response.body).toEqual(expectedbody);
+      });
+  });
+
+  test('GET /reservations/:id returns a single reservation', async () => {
+    const expectedStatus = 200;
+    const expectedbody = {
+      id: '507f1f77bcf86cd799439011',
+      partySize: 4,
+      date: '2023-11-17T06:30:00.000Z',
+      userId: 'mock-user-id',
+      restaurantName: 'Island Grill',
+    };
+
+    await request(app)
+      .get('/reservations/507f1f77bcf86cd799439011')
+      .expect(expectedStatus)
+      .expect((response) => {
+        expect(response.body).toEqual(expectedbody);
+      });
+  });
+
+  test('POST /reservations returns 400 when request with an invalid body', async () => {
+    const expectedStatus = 400;
+    const expectedbody = {
+      partySize: -1,
+      date: '2023-11-17T06:30:00.000Z',
+      restaurantName: 'Island Grill',
+    };
+
+    await request(app)
+      .post('/reservations')
+      .send(expectedbody)
+      .expect(expectedStatus);
+  });
 
   test('GET /restaurants/:id returns 400 when request with an invalid id', async () => {
     const expectedStatus = 400;
@@ -83,6 +140,28 @@ describe('app', () => {
 
     await request(app)
       .get('/restaurants/616005cae3c8e880c13dc0b1')
+      .expect(expectedStatus);
+  });
+
+  test('GET /reservations/:id returns 400 when request with an invalid id', async () => {
+    const expectedStatus = 400;
+
+    await request(app).get('/restaurants/bad-url').expect(expectedStatus);
+  });
+
+  test('GET /reservations/:id returns 404 when request with an id that doesn’t exist on the server', async () => {
+    const expectedStatus = 404;
+
+    await request(app)
+      .get('/reservations/616005cae3c8e880c13dc0b9')
+      .expect(expectedStatus);
+  });
+
+  test('GET /reservations/:id returns 403 when request with no permission to accsess to the reservation', async () => {
+    const expectedStatus = 403;
+
+    await request(app)
+      .get('/reservations/61679189b54f48aa6599a7fd')
       .expect(expectedStatus);
   });
 });
