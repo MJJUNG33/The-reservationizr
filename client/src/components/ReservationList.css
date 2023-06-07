@@ -1,0 +1,46 @@
+.reservation-list,
+.reservations {
+  display: grid;
+}
+.reservations-h1 {
+  text-align: center;
+}
+
+.reservations {
+  border-bottom: 1px dashed #ccc;
+  padding: 1rem 0;
+}
+
+h2,
+.date,
+.detail {
+  margin: 0.2rem;
+}
+
+li {
+  list-style-type: none;
+}
+
+h2.restaurant-name-reservations {
+  font-size: 1rem;
+}
+
+.date {
+  color: grey;
+}
+
+.detail {
+  color: red;
+  margin-bottom: 1rem;
+}
+
+@media screen and (min-width: 48rem) {
+  .reservations {
+    line-height: 1.5;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    column-gap: 2rem;
+    align-items: center;
+  }
+}

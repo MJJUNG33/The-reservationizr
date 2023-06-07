@@ -1,8 +1,12 @@
 form,
 .form-input,
-p.form-item,
+.form-item,
 .react-datepicker__input-container {
   display: grid;
+}
+
+form {
+  row-gap: 1rem;
 }
 
 .form-input {
@@ -21,8 +25,7 @@ p.form-item,
 
 @media screen and (min-width: 48rem) {
   .form,
-  .form-input,
-  p {
+  .form-input {
     display: grid;
   }
 

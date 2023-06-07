@@ -60,8 +60,9 @@ app.get('/restaurants/:id', async (req, res) => {
 });
 
 app.get('/reservations', checkJwt, async (req, res) => {
+  const userId = req.auth.payload.sub;
   const reservations = await ReservationModel.find({
-    userId: req.auth.payload.sub,
+    userId,
   });
   return res.status(200).send(reservations);
 });

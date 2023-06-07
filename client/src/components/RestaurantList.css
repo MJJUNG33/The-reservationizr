@@ -22,6 +22,9 @@ h2.restaurant-name {
   border-radius: 5px;
   padding: 0.75rem;
 }
+.reservations-error {
+  color: red;
+}
 
 @media screen and (min-width: 48rem) {
   ul.restaurants-List,

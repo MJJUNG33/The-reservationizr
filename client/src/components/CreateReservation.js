@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import { useAuth0 } from '@auth0/auth0-react';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -10,8 +10,6 @@ const CreateReservation = ({ restaurantName }) => {
   const [startDate, setStartDate] = useState(new Date());
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
-  const [errorStatus, setErrorStatus] = useState(false);
   const { getAccessTokenSilently } = useAuth0();
 
   const handleSubmit = async (event) => {
@@ -22,11 +20,12 @@ const CreateReservation = ({ restaurantName }) => {
     setIsLoading(true);
 
     const reservation = {
-      partySize: Number(partySize),
-      startDate,
+      partySize: partySize,
+      date: startDate,
+      restaurantName: restaurantName,
     };
 
-    const response = await fetch('http://localhost:5001/reservations', {
+    await fetch('http://localhost:5001/reservations', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -35,34 +34,22 @@ const CreateReservation = ({ restaurantName }) => {
       body: JSON.stringify(reservation),
     });
 
-    if (!response.ok) {
-      setIsError(true);
-      setErrorStatus(response.status);
-    } else {
-      setIsLoading(false);
-      navigate('/');
-    }
+    navigate('/reservations');
   };
 
-  if (isError) {
-    return (
-      <>
-        <p className="no-reservations">
-          Error creating a reservation (error status {errorStatus})
-        </p>
-        <Link to="/" className="button">
-          Return to reservations
-        </Link>
-      </>
-    );
-  }
+  const filterPassedTime = (time) => {
+    const currentDate = new Date();
+    const selectedDate = new Date(time);
+
+    return currentDate.getTime() < selectedDate.getTime();
+  };
 
   return (
     <>
       <div className="form">
         <h2>Reserve {restaurantName}</h2>
         <form onSubmit={handleSubmit}>
-          <p className="form-item">
+          <div className="form-item">
             <label htmlFor="partySize">Number of guests</label>
             <input
               type="number"
@@ -75,23 +62,23 @@ const CreateReservation = ({ restaurantName }) => {
               }}
               required
             />
-          </p>
-          <p className="form-item">
+          </div>
+          <div className="form-item">
             <label htmlFor="date">Date</label>
             <DatePicker
               id="startDate"
               className="form-input"
-              value={startDate}
               selected={startDate}
               onChange={(date) => {
                 setStartDate(date);
               }}
               minDate={new Date()}
+              filterTime={filterPassedTime}
               showTimeSelect
               dateFormat="Pp"
               required
             ></DatePicker>
-          </p>
+          </div>
           <button className="submit-btn" disabled={isLoading}>
             Submit
           </button>
