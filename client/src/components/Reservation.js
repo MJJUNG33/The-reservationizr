@@ -22,10 +22,6 @@ const Reservation = () => {
         },
       });
 
-      if (response.ok === false) {
-        return;
-      }
-
       const data = await response.json();
       setReservation(data);
       setIsLoading(false);

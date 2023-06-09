@@ -70,6 +70,7 @@ describe('app', () => {
         expect(response.body).toEqual(expectedbody);
       });
   });
+
   test('GET /reservations returns a list of all reservations', async () => {
     const expectedStatus = 200;
     const expectedbody = [
@@ -115,7 +116,17 @@ describe('app', () => {
       });
   });
 
-  test('POST /reservations returns 400 when request with an invalid body', async () => {
+  test('POST /reservations returns 400 when making a request with an invalid body', async () => {
+    const expectedStatus = 400;
+    const expectedbody = {};
+
+    await request(app)
+      .post('/reservations')
+      .send(expectedbody)
+      .expect(expectedStatus);
+  });
+
+  test('POST /reservations returns 400 when making a request with an invalid partySize value in the body', async () => {
     const expectedStatus = 400;
     const expectedbody = {
       partySize: -1,
@@ -128,7 +139,6 @@ describe('app', () => {
       .send(expectedbody)
       .expect(expectedStatus);
   });
-
   test('GET /restaurants/:id returns 400 when request with an invalid id', async () => {
     const expectedStatus = 400;
 
