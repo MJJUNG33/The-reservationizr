@@ -6,7 +6,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import './CreateReservation.css';
 
 const CreateReservation = ({ restaurantName }) => {
-  const [partySize, setPartySize] = useState();
+  const [partySize, setPartySize] = useState(1);
   const [startDate, setStartDate] = useState(new Date());
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
@@ -64,7 +64,7 @@ const CreateReservation = ({ restaurantName }) => {
             />
           </div>
           <div className="form-item">
-            <label htmlFor="date">Date</label>
+            <label htmlFor="startDate">Date</label>
             <DatePicker
               id="startDate"
               className="form-input"
