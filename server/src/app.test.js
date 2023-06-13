@@ -117,18 +117,43 @@ describe('app', () => {
   });
 
   test('POST /reservations returns 400 when making a request with an invalid body', async () => {
-    const expectedStatus = 400;
-    const expectedbody = {};
-
+    const body = {};
+    const expectedbody = {
+      statusCode: 400,
+      error: 'Bad Request',
+      message: 'Validation failed',
+      validation: {
+        body: {
+          source: 'body',
+          keys: ['partySize'],
+          message: '"partySize" is required',
+        },
+      },
+    };
     await request(app)
       .post('/reservations')
-      .send(expectedbody)
-      .expect(expectedStatus);
+      .send(body)
+      .expect(400)
+      .expect((response) => {
+        expect(response.body).toEqual(expectedbody);
+      });
   });
 
   test('POST /reservations returns 400 when making a request with an invalid partySize value in the body', async () => {
-    const expectedStatus = 400;
     const expectedbody = {
+      statusCode: 400,
+      error: 'Bad Request',
+      message: 'Validation failed',
+      validation: {
+        body: {
+          source: 'body',
+          keys: ['date'],
+          message: '"date" must be greater than "now"',
+        },
+      },
+    };
+
+    const body = {
       partySize: -1,
       date: '2023-11-17T06:30:00.000Z',
       restaurantName: 'Island Grill',
@@ -136,42 +161,72 @@ describe('app', () => {
 
     await request(app)
       .post('/reservations')
-      .send(expectedbody)
-      .expect(expectedStatus);
+      .send(body)
+      .expect(400)
+      .expect((response) => {
+        expect(response.body).toEqual(expectedbody);
+      });
   });
   test('GET /restaurants/:id returns 400 when request with an invalid id', async () => {
-    const expectedStatus = 400;
+    const expected = {
+      error: 'invalid id is provided',
+    };
 
-    await request(app).get('/restaurants/bad-url').expect(expectedStatus);
+    await request(app)
+      .get('/restaurants/bad-url')
+      .expect(400)
+      .expect((response) => {
+        expect(response.body).toEqual(expected);
+      });
   });
 
   test('GET /restaurants/:id returns 404 when request with an id that doesn’t exist on the server', async () => {
-    const expectedStatus = 404;
+    const expected = {
+      error: 'restaurant not found',
+    };
 
     await request(app)
       .get('/restaurants/616005cae3c8e880c13dc0b1')
-      .expect(expectedStatus);
+      .expect(404)
+      .expect((response) => {
+        expect(response.body).toEqual(expected);
+      });
   });
 
   test('GET /reservations/:id returns 400 when request with an invalid id', async () => {
-    const expectedStatus = 400;
+    const expected = {
+      error: 'invalid id is provided',
+    };
 
-    await request(app).get('/restaurants/bad-url').expect(expectedStatus);
+    await request(app)
+      .get('/reservations/bad-url')
+      .expect(400)
+      .expect((response) => {
+        expect(response.body).toEqual(expected);
+      });
   });
 
   test('GET /reservations/:id returns 404 when request with an id that doesn’t exist on the server', async () => {
-    const expectedStatus = 404;
-
+    const expected = {
+      error: 'not found',
+    };
     await request(app)
       .get('/reservations/616005cae3c8e880c13dc0b9')
-      .expect(expectedStatus);
+      .expect(404)
+      .expect((response) => {
+        expect(response.body).toEqual(expected);
+      });
   });
 
   test('GET /reservations/:id returns 403 when request with no permission to accsess to the reservation', async () => {
-    const expectedStatus = 403;
-
+    const expected = {
+      error: 'user dose not have permition to access this reservation',
+    };
     await request(app)
-      .get('/reservations/61679189b54f48aa6599a7fd')
-      .expect(expectedStatus);
+      .get('/reservations/64813360fa851dcb8793415b')
+      .expect(403)
+      .expect((response) => {
+        expect(response.body).toEqual(expected);
+      });
   });
 });
