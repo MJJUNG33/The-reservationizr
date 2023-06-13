@@ -47,7 +47,7 @@ app.get('/restaurants/:id', async (req, res) => {
   const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(400).send({ error: 'id provided is invalid' });
+    return res.status(400).send({ error: 'invalid id provided' });
   }
 
   const restaurant = await RestaurantsModel.findById(id);

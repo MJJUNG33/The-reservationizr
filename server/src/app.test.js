@@ -147,12 +147,11 @@ describe('app', () => {
       validation: {
         body: {
           source: 'body',
-          keys: ['date'],
-          message: '"date" must be greater than "now"',
+          keys: ['partySize'],
+          message: '"partySize" must be greater than or equal to 1',
         },
       },
     };
-
     const body = {
       partySize: -1,
       date: '2023-11-17T06:30:00.000Z',
@@ -167,9 +166,10 @@ describe('app', () => {
         expect(response.body).toEqual(expectedbody);
       });
   });
+
   test('GET /restaurants/:id returns 400 when request with an invalid id', async () => {
     const expected = {
-      error: 'invalid id is provided',
+      error: 'invalid id provided',
     };
 
     await request(app)
@@ -195,7 +195,7 @@ describe('app', () => {
 
   test('GET /reservations/:id returns 400 when request with an invalid id', async () => {
     const expected = {
-      error: 'invalid id is provided',
+      error: 'invalid id provided',
     };
 
     await request(app)
@@ -223,7 +223,7 @@ describe('app', () => {
       error: 'user dose not have permition to access this reservation',
     };
     await request(app)
-      .get('/reservations/64813360fa851dcb8793415b')
+      .get('/reservations/61679189b54f48aa6599a7fd')
       .expect(403)
       .expect((response) => {
         expect(response.body).toEqual(expected);
