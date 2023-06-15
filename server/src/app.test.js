@@ -220,7 +220,7 @@ describe('app', () => {
 
   test('GET /reservations/:id returns 403 when request with no permission to accsess to the reservation', async () => {
     const expected = {
-      error: 'user dose not have permition to access this reservation',
+      error: 'user dose not have permission to access this reservation',
     };
     await request(app)
       .get('/reservations/61679189b54f48aa6599a7fd')

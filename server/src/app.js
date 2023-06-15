@@ -83,7 +83,7 @@ app.get('/reservations/:id', checkJwt, async (req, res) => {
 
   if (reservation.userId !== auth.payload.sub) {
     return res.status(403).send({
-      error: 'user dose not have permition to access this reservation',
+      error: 'user dose not have permission to access this reservation',
     });
   }
 

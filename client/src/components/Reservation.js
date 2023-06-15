@@ -8,7 +8,9 @@ const Reservation = () => {
   const { id } = useParams();
   const [reservation, setReservation] = useState({});
   const [isLoading, setIsLoading] = useState(true);
-  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
+  const [isNotFound, setIsNotFound] = useState(false);
+
+  const { getAccessTokenSilently } = useAuth0();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,6 +24,11 @@ const Reservation = () => {
         },
       });
 
+      if (response.ok === false) {
+        setIsNotFound(true);
+        return;
+      }
+
       const data = await response.json();
       setReservation(data);
       setIsLoading(false);
@@ -30,7 +37,7 @@ const Reservation = () => {
     fetchData();
   }, [id]);
 
-  if (!isAuthenticated) {
+  if (isNotFound) {
     return (
       <>
         <p className="error">Sorry! We can't find that reservation</p>
@@ -58,7 +65,6 @@ const Reservation = () => {
           </p>
         </li>
       </ul>
-
       <Link to="/reservations">
         <button className="btn">&larr; Back to reservations</button>
       </Link>
